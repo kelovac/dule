@@ -1,23 +1,24 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
+from datetime import datetime
 
 class User(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('first_name',
-        type=str,
-        required=True,
-        help="This field cannot be left blank!"
-    )
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                    )
     parser.add_argument('last_name',
-        type=str,
-        required=True,
-        help="This field cannot be left blank!"
-    )
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                    )
     parser.add_argument('password',
-        type=str,
-        required=True,
-        help="This field cannot be left blank!"
-    )
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                    )
 
     def get(self, username):
         user = UserModel.find_by_username(username)
@@ -31,7 +32,11 @@ class User(Resource):
 
         data = User.parser.parse_args()
 
-        user = UserModel(username, **data)
+        user = UserModel(username=username,
+                 first_name=data['first_name'],
+                 last_name=data['last_name'],
+                 password=data['password'],
+                 user_created=datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'))
 
         try:
             user.save_to_db()
