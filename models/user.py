@@ -22,7 +22,15 @@ class UserModel(db.Model):
         self.last_name = last_name
         self.password = password
         self.user_created = user_created
+
     def json(self):
+        return {'username': self.username,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'password': self.password,
+                'user_created': self.user_created.strftime('%Y-%m-%d %H:%M:%S')}
+
+    def upd_json(self):
         return {'username': self.username,
                 'first_name': self.first_name,
                 'last_name': self.last_name,

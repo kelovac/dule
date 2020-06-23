@@ -71,7 +71,7 @@ class User(Resource):
 
         user.save_to_db()
 
-        return user.json()
+        return user.upd_json()
 
 
 class UserList(Resource):
