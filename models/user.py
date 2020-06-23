@@ -12,6 +12,9 @@ class UserModel(db.Model):
     user_created = db.Column(db.DateTime(),
                              nullable=False,
                              default=datetime.utcnow())
+    user_updated = db.Column(db.DateTime(),
+                             nullable=False,
+                             default=datetime.utcnow())
 
     def __init__(self, username, first_name, last_name, password, user_created):
         self.username = username
@@ -19,13 +22,13 @@ class UserModel(db.Model):
         self.last_name = last_name
         self.password = password
         self.user_created = user_created
-
     def json(self):
         return {'username': self.username,
                 'first_name': self.first_name,
                 'last_name': self.last_name,
                 'password': self.password,
-                'user_created': self.user_created}
+                'user_created': self.user_created.strftime('%Y-%m-%d %H:%M:%S'),
+                'user_updated': self.user_updated.strftime('%Y-%m-%d %H:%M:%S')}
 
     @classmethod
     def find_by_username(cls, username):

@@ -36,7 +36,7 @@ class User(Resource):
                  first_name=data['first_name'],
                  last_name=data['last_name'],
                  password=data['password'],
-                 user_created=datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'))
+                 user_created=datetime.utcnow())
 
         try:
             user.save_to_db()
@@ -58,11 +58,16 @@ class User(Resource):
         user = UserModel.find_by_username(username)
 
         if user is None:
-            user = UserModel(username, **data)
+            user = UserModel(username=username,
+                     first_name=data['first_name'],
+                     last_name=data['last_name'],
+                     password=data['password'],
+                     user_updated=datetime.utcnow())
         else:
             user.first_name = data['first_name']
             user.last_name = data['last_name']
             user.password = data['password']
+            user.user_updated = datetime.utcnow()
 
         user.save_to_db()
 
